@@ -7,7 +7,7 @@ import {
   type SortingState,
   type VisibilityState
 } from '@tanstack/react-table'
-import { Columns3, GripVertical } from 'lucide-react'
+import { ChevronDown, ChevronUp, Columns3, GripVertical } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -19,6 +19,7 @@ import {
   loadTableLayout,
   mergeColumnOrder,
   moveColumn,
+  nudgeColumn,
   saveTableLayout
 } from '@/lib/column-layout'
 
@@ -75,11 +76,13 @@ export function DataTable<T>({ columns, data, storageKey }: DataTableProps<T>) {
               Columns
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="end" className="w-64 p-2">
-            <p className="px-1 pb-2 text-xs text-muted-foreground">Show, hide, or drag to reorder</p>
+          <PopoverContent align="end" className="w-72 p-2">
+            <p className="px-1 pb-2 text-xs text-muted-foreground">Show, hide, or reorder columns</p>
             <div className="space-y-1">
-              {table.getAllLeafColumns().map((column) => {
+              {table.getAllLeafColumns().map((column, _index, all) => {
                 const locked = !column.getCanHide()
+                const movable = all.filter((item) => item.getCanHide())
+                const movableIndex = movable.findIndex((item) => item.id === column.id)
                 return (
                   <div
                     key={column.id}
@@ -101,6 +104,32 @@ export function DataTable<T>({ columns, data, storageKey }: DataTableProps<T>) {
                       onCheckedChange={(checked) => column.toggleVisibility(Boolean(checked))}
                     />
                     <span className="flex-1 truncate">{headerLabel(column)}</span>
+                    {locked ? null : (
+                      <span className="flex">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6"
+                          disabled={movableIndex <= 0}
+                          aria-label={`Move ${headerLabel(column)} left`}
+                          onClick={() => setColumnOrder((order) => nudgeColumn(order, column.id, -1))}
+                        >
+                          <ChevronUp className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6"
+                          disabled={movableIndex === movable.length - 1}
+                          aria-label={`Move ${headerLabel(column)} right`}
+                          onClick={() => setColumnOrder((order) => nudgeColumn(order, column.id, 1))}
+                        >
+                          <ChevronDown className="h-3.5 w-3.5" />
+                        </Button>
+                      </span>
+                    )}
                   </div>
                 )
               })}

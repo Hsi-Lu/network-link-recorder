@@ -28,6 +28,14 @@ export function moveColumn(order: string[], fromId: string, toId: string): strin
   return order.includes(PINNED_LAST_COLUMN) ? [...next, PINNED_LAST_COLUMN] : next
 }
 
+export function nudgeColumn(order: string[], id: string, direction: -1 | 1): string[] {
+  const rest = order.filter((item) => item !== PINNED_LAST_COLUMN)
+  const index = rest.indexOf(id)
+  const target = rest[index + direction]
+  if (!target) return order
+  return moveColumn(order, id, target)
+}
+
 export type TableLayout = {
   columnVisibility: Record<string, boolean>
   columnOrder: string[]
