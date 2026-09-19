@@ -1,4 +1,5 @@
-import { HashRouter, Navigate, Route, Routes } from 'react-router'
+import { HashRouter, Navigate, Route, Routes, useParams } from 'react-router'
+import type { ComponentType } from 'react'
 import { AppLayout } from '@/components/app-layout'
 import { DeviceFormPage } from '@/pages/device-form'
 import { DevicesListPage } from '@/pages/devices-list'
@@ -11,6 +12,19 @@ import { RacksListPage } from '@/pages/racks-list'
 import { RoomFormPage } from '@/pages/room-form'
 import { RoomsListPage } from '@/pages/rooms-list'
 
+function keyed(Page: ComponentType) {
+  return function KeyedFormPage() {
+    const { id } = useParams()
+    return <Page key={id ?? 'new'} />
+  }
+}
+
+const KeyedLinkFormPage = keyed(LinkFormPage)
+const KeyedRoomFormPage = keyed(RoomFormPage)
+const KeyedRackFormPage = keyed(RackFormPage)
+const KeyedDeviceFormPage = keyed(DeviceFormPage)
+const KeyedInterfaceFormPage = keyed(InterfaceFormPage)
+
 export function App() {
   return (
     <HashRouter>
@@ -18,20 +32,20 @@ export function App() {
         <Route element={<AppLayout />}>
           <Route index element={<Navigate to="/links" replace />} />
           <Route path="links" element={<LinksListPage />} />
-          <Route path="links/new" element={<LinkFormPage />} />
-          <Route path="links/:id/edit" element={<LinkFormPage />} />
+          <Route path="links/new" element={<KeyedLinkFormPage />} />
+          <Route path="links/:id/edit" element={<KeyedLinkFormPage />} />
           <Route path="rooms" element={<RoomsListPage />} />
-          <Route path="rooms/new" element={<RoomFormPage />} />
-          <Route path="rooms/:id/edit" element={<RoomFormPage />} />
+          <Route path="rooms/new" element={<KeyedRoomFormPage />} />
+          <Route path="rooms/:id/edit" element={<KeyedRoomFormPage />} />
           <Route path="racks" element={<RacksListPage />} />
-          <Route path="racks/new" element={<RackFormPage />} />
-          <Route path="racks/:id/edit" element={<RackFormPage />} />
+          <Route path="racks/new" element={<KeyedRackFormPage />} />
+          <Route path="racks/:id/edit" element={<KeyedRackFormPage />} />
           <Route path="devices" element={<DevicesListPage />} />
-          <Route path="devices/new" element={<DeviceFormPage />} />
-          <Route path="devices/:id/edit" element={<DeviceFormPage />} />
+          <Route path="devices/new" element={<KeyedDeviceFormPage />} />
+          <Route path="devices/:id/edit" element={<KeyedDeviceFormPage />} />
           <Route path="interfaces" element={<InterfacesListPage />} />
-          <Route path="interfaces/new" element={<InterfaceFormPage />} />
-          <Route path="interfaces/:id/edit" element={<InterfaceFormPage />} />
+          <Route path="interfaces/new" element={<KeyedInterfaceFormPage />} />
+          <Route path="interfaces/:id/edit" element={<KeyedInterfaceFormPage />} />
         </Route>
       </Routes>
     </HashRouter>
