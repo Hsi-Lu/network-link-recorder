@@ -25,6 +25,7 @@ export function RoomsListPage() {
         id: 'actions',
         header: '',
         enableSorting: false,
+        enableHiding: false,
         cell: ({ row }) => (
           <Button asChild variant="link" size="sm">
             <Link to={`/rooms/${row.original.id}/edit`}>Edit</Link>
@@ -37,7 +38,7 @@ export function RoomsListPage() {
 
   return (
     <ListPage title="Rooms" addTo="/rooms/new" search={search} onSearchChange={setSearch}>
-      <DataTable columns={columns} data={query.data ?? []} />
+      <DataTable storageKey="rooms" columns={columns} data={query.data ?? []} />
     </ListPage>
   )
 }

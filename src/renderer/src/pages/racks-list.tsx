@@ -22,6 +22,7 @@ export function RacksListPage() {
       {
         id: 'actions',
         enableSorting: false,
+        enableHiding: false,
         cell: ({ row }) => (
           <Button asChild variant="link" size="sm">
             <Link to={`/racks/${row.original.id}/edit`}>Edit</Link>
@@ -34,7 +35,7 @@ export function RacksListPage() {
 
   return (
     <ListPage title="Racks" addTo="/racks/new" search={search} onSearchChange={setSearch}>
-      <DataTable columns={columns} data={query.data ?? []} />
+      <DataTable storageKey="racks" columns={columns} data={query.data ?? []} />
     </ListPage>
   )
 }

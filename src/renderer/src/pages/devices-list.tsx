@@ -26,6 +26,7 @@ export function DevicesListPage() {
       {
         id: 'actions',
         enableSorting: false,
+        enableHiding: false,
         cell: ({ row }) => (
           <Button asChild variant="link" size="sm">
             <Link to={`/devices/${row.original.id}/edit`}>Edit</Link>
@@ -38,7 +39,7 @@ export function DevicesListPage() {
 
   return (
     <ListPage title="Devices" addTo="/devices/new" search={search} onSearchChange={setSearch}>
-      <DataTable columns={columns} data={query.data ?? []} />
+      <DataTable storageKey="devices" columns={columns} data={query.data ?? []} />
     </ListPage>
   )
 }

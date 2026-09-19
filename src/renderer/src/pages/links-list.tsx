@@ -55,6 +55,7 @@ export function LinksListPage() {
       {
         id: 'actions',
         enableSorting: false,
+        enableHiding: false,
         cell: ({ row }) => (
           <Button asChild variant="link" size="sm">
             <Link to={`/links/${row.original.id}/edit`}>Edit</Link>
@@ -89,7 +90,7 @@ export function LinksListPage() {
         </>
       }
     >
-      <DataTable columns={columns} data={query.data ?? []} />
+      <DataTable storageKey="links" columns={columns} data={query.data ?? []} />
     </ListPage>
   )
 }

@@ -27,6 +27,7 @@ export function InterfacesListPage() {
       {
         id: 'actions',
         enableSorting: false,
+        enableHiding: false,
         cell: ({ row }) => (
           <Button asChild variant="link" size="sm">
             <Link to={`/interfaces/${row.original.id}/edit`}>Edit</Link>
@@ -39,7 +40,7 @@ export function InterfacesListPage() {
 
   return (
     <ListPage title="Interfaces" addTo="/interfaces/new" search={search} onSearchChange={setSearch}>
-      <DataTable columns={columns} data={query.data ?? []} />
+      <DataTable storageKey="interfaces" columns={columns} data={query.data ?? []} />
     </ListPage>
   )
 }
