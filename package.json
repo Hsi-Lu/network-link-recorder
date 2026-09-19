@@ -1,0 +1,16 @@
+{
+  "name": "network-link-recorder",
+  "version": "0.1.0",
+  "description": "An app recording network physical link connections",
+  "license": "ISC",
+  "author": "John Doe",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "electron": "^44.4.3"
+  }
+}
